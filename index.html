@@ -11,7 +11,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600;700&display=swap');
         
         body, html { 
             margin: 0; 
@@ -40,11 +40,17 @@
 
         #quote-container {
             transition: opacity 1.5s ease-in-out;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .legal-scroll::-webkit-scrollbar { width: 4px; }
         .legal-scroll::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
         .legal-scroll::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.3); border-radius: 10px; }
+
+        /* Enhanced Footer Legibility */
+        .footer-text {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
 
         /* Stress Meter Animation */
         @keyframes slide-up {
@@ -80,21 +86,23 @@
             </button>
         </div>
 
-        <div class="absolute bottom-8 text-[10px] text-white/30 tracking-widest uppercase">
+        <div class="absolute bottom-8 text-[11px] text-white/50 tracking-widest uppercase font-medium">
             <button onclick="showLegal('privacy')" class="hover:text-cyan-400 transition-colors">Privacy Policy</button>
-            <span class="mx-2">•</span>
+            <span class="mx-2 text-white/20">•</span>
             <button onclick="showLegal('terms')" class="hover:text-cyan-400 transition-colors">Terms of Use</button>
+            <span class="mx-2 text-white/20">•</span>
+            <button onclick="showLegal('feedback')" class="hover:text-cyan-400 transition-colors">Feedback</button>
         </div>
     </div>
 
     <!-- Stress Release Feedback UI -->
     <div id="stress-check" class="fixed bottom-32 left-1/2 -translate-x-1/2 z-40 w-full max-w-xs pointer-events-none hidden">
-        <div class="bg-black/60 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6 text-center shadow-2xl pointer-events-auto animate-slide-up">
+        <div class="bg-black/80 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6 text-center shadow-2xl pointer-events-auto animate-slide-up">
             <h3 class="text-cyan-400 text-xs font-bold tracking-widest uppercase mb-4">Mental Check-in</h3>
-            <p class="text-white/80 text-sm font-light mb-6">How do you feel now compared to when you started?</p>
-            <div class="flex justify-center gap-4">
-                <button onclick="recordStress(true)" class="bg-cyan-500/20 hover:bg-cyan-500/40 border border-cyan-500/50 text-cyan-300 px-4 py-2 rounded-lg text-xs transition-all uppercase font-bold">Relieved</button>
-                <button onclick="recordStress(false)" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 px-4 py-2 rounded-lg text-xs transition-all uppercase">No Change</button>
+            <p class="text-white/90 text-sm font-medium mb-6">How do you feel now compared to when you started?</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="recordStress(true)" class="w-full bg-cyan-500/20 hover:bg-cyan-500/40 border border-cyan-500/50 text-cyan-300 px-4 py-3 rounded-lg text-xs transition-all uppercase font-bold tracking-widest">Much Better</button>
+                <button onclick="recordStress(false)" class="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white/80 px-4 py-3 rounded-lg text-xs transition-all uppercase tracking-widest">No Change</button>
             </div>
         </div>
     </div>
@@ -104,19 +112,19 @@
         <div class="flex flex-col">
             <div class="flex items-center gap-3 mb-1">
                 <img src="image_e5efe3.jpg" alt="Logo" class="w-8 h-8 rounded-full border border-cyan-400/50 object-cover">
-                <span class="text-cyan-400 font-bold tracking-tighter text-xl">eTanav</span>
+                <span class="text-cyan-400 font-bold tracking-tighter text-xl footer-text">eTanav</span>
                 <span class="text-white/20 text-[10px] uppercase tracking-widest">|</span>
-                <span id="user-greeting" class="text-white/40 text-[10px] uppercase tracking-widest">Traveler</span>
+                <span id="user-greeting" class="text-white/60 text-[10px] uppercase tracking-widest font-bold footer-text">Traveler</span>
             </div>
             
             <div class="flex gap-8 ml-11 items-baseline">
                 <div class="flex flex-col">
-                    <span class="text-cyan-500/50 text-[10px] uppercase tracking-[0.2em] font-bold">Zen Energy</span>
-                    <span id="lumen-display" class="text-white text-4xl font-extralight tabular-nums leading-none">0</span>
+                    <span class="text-cyan-500/70 text-[10px] uppercase tracking-[0.2em] font-bold footer-text">Zen Energy</span>
+                    <span id="lumen-display" class="text-white text-4xl font-extralight tabular-nums leading-none footer-text">0</span>
                 </div>
                 <div class="flex flex-col border-l border-white/10 pl-4">
-                    <span class="text-pink-500/50 text-[10px] uppercase tracking-[0.2em] font-bold">Stress Released</span>
-                    <span id="stress-meter" class="text-pink-400 text-2xl font-extralight tabular-nums leading-none">0%</span>
+                    <span class="text-pink-500/70 text-[10px] uppercase tracking-[0.2em] font-bold footer-text">Stress Released</span>
+                    <span id="stress-meter" class="text-pink-400 text-2xl font-extralight tabular-nums leading-none footer-text">0%</span>
                 </div>
             </div>
         </div>
@@ -124,14 +132,14 @@
         <div class="flex flex-col items-end">
             <div class="flex items-center gap-4 mb-2">
                 <div class="text-right">
-                    <span id="planet-label" class="text-cyan-500/50 text-[10px] uppercase tracking-[0.2em] font-bold block">Mercury</span>
-                    <span id="multiplier-display" class="text-cyan-300 text-3xl font-extralight leading-none">x1.0</span>
+                    <span id="planet-label" class="text-cyan-500/70 text-[10px] uppercase tracking-[0.2em] font-bold block footer-text">Mercury</span>
+                    <span id="multiplier-display" class="text-cyan-300 text-3xl font-extralight leading-none footer-text">x1.0</span>
                 </div>
-                <div id="planet-visual" class="w-12 h-12 rounded-full border border-white/10 relative overflow-hidden planet-glow" style="--planet-color: #969696">
+                <div id="planet-visual" class="w-12 h-12 rounded-full border border-white/20 relative overflow-hidden planet-glow shadow-lg shadow-black/50" style="--planet-color: #969696">
                     <div id="planet-surface" class="absolute inset-0 opacity-50 bg-gradient-to-br from-white/20 to-transparent"></div>
                 </div>
             </div>
-            <div class="w-32 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div class="w-32 h-1.5 bg-white/10 rounded-full overflow-hidden border border-white/5">
                 <div id="multiplier-bar" class="h-full bg-cyan-400 shadow-[0_0_10px_#22d3ee] transition-all duration-500" style="width: 0%"></div>
             </div>
         </div>
@@ -142,19 +150,21 @@
     <!-- Progress & Quotes Footer -->
     <div id="footer-ui" class="absolute bottom-10 left-0 w-full flex flex-col items-center pointer-events-none z-10 opacity-0 transition-opacity duration-1000">
         <div id="quote-container" class="max-w-md text-center mb-8 px-6 opacity-0">
-            <p id="zen-quote" class="text-cyan-100/60 text-sm font-light italic leading-relaxed"></p>
-            <p id="zen-author" class="text-cyan-500/40 text-[10px] uppercase tracking-widest mt-2"></p>
+            <p id="zen-quote" class="text-white text-base font-medium italic leading-relaxed footer-text"></p>
+            <p id="zen-author" class="text-cyan-400 text-[11px] font-bold uppercase tracking-[0.2em] mt-3 footer-text"></p>
         </div>
 
-        <div id="stage-display" class="text-white/20 text-[10px] uppercase tracking-[0.4em] mb-2 font-bold tabular-nums">Mercury Expedition</div>
-        <div class="w-48 h-0.5 bg-white/5 rounded-full mb-6 overflow-hidden">
-             <div id="stage-bar" class="h-full bg-white/20 transition-all duration-1000" style="width: 0%"></div>
+        <div id="stage-display" class="text-white/60 text-[11px] uppercase tracking-[0.4em] mb-3 font-bold tabular-nums footer-text">Mercury Expedition</div>
+        <div class="w-48 h-1 bg-white/10 rounded-full mb-8 overflow-hidden border border-white/5">
+             <div id="stage-bar" class="h-full bg-cyan-400/60 shadow-[0_0_8px_rgba(34,211,238,0.5)] transition-all duration-1000" style="width: 0%"></div>
         </div>
         
-        <div class="flex gap-4 pointer-events-auto">
-            <button onclick="showLegal('disclaimer')" class="text-white/10 hover:text-white/40 text-[8px] uppercase tracking-[0.2em] transition-colors">Medical Disclaimer</button>
-            <span class="text-white/5 text-[8px]">|</span>
-            <span class="text-white/10 text-[8px] uppercase tracking-[0.2em]">© 2026 eTanav</span>
+        <div class="flex gap-6 pointer-events-auto">
+            <button onclick="showLegal('disclaimer')" class="text-white/40 hover:text-white text-[9px] uppercase tracking-[0.2em] font-bold transition-colors footer-text">Medical Disclaimer</button>
+            <span class="text-white/10 text-[9px]">|</span>
+            <button onclick="showLegal('feedback')" class="text-white/40 hover:text-white text-[9px] uppercase tracking-[0.2em] font-bold transition-colors footer-text">Share Feedback</button>
+            <span class="text-white/10 text-[9px]">|</span>
+            <span class="text-white/30 text-[9px] uppercase tracking-[0.2em] font-bold footer-text">© 2026 eTanav</span>
         </div>
     </div>
 
@@ -169,6 +179,8 @@
     </div>
 
     <script>
+        const FEEDBACK_FORM_URL = "https://forms.gle/6sR8cGyTCLuD6dMb7";
+
         const PLANETS = [
             { name: "Mercury", color: "#969696", surface: "radial-gradient(circle at 30% 30%, #b4b4b4, #5a5a5a)" },
             { name: "Venus", color: "#ffbe64", surface: "linear-gradient(45deg, #e3963e, #8b4513)" },
@@ -182,10 +194,10 @@
         ];
 
         const TIME_THEMES = {
-            DAWN: { bg: "#1a1308", aura: "rgba(255, 200, 100, 0.1)", filter: "sepia(0.2)", tag: "wisdom" },
-            DAY: { bg: "#080a12", aura: "rgba(100, 200, 255, 0.05)", filter: "contrast(1.1)", tag: "success" },
-            DUSK: { bg: "#12080a", aura: "rgba(255, 100, 150, 0.1)", filter: "hue-rotate(320deg)", tag: "love" },
-            NIGHT: { bg: "#040508", aura: "rgba(150, 100, 255, 0.1)", filter: "brightness(0.8)", tag: "philosophical" }
+            DAWN: { bg: "#1a1308", aura: "rgba(255, 200, 100, 0.15)", filter: "sepia(0.2)", tag: "wisdom" },
+            DAY: { bg: "#080a12", aura: "rgba(100, 200, 255, 0.1)", filter: "contrast(1.1)", tag: "success" },
+            DUSK: { bg: "#12080a", aura: "rgba(255, 100, 150, 0.15)", filter: "hue-rotate(320deg)", tag: "love" },
+            NIGHT: { bg: "#040508", aura: "rgba(150, 100, 255, 0.15)", filter: "brightness(0.9)", tag: "philosophical" }
         };
 
         const legalData = {
@@ -206,6 +218,16 @@
             disclaimer: { 
                 title: "Medical Disclaimer", 
                 content: "<p>eTanav is for entertainment and relaxation. It is not a clinical tool or medical treatment for anxiety or depression. Always seek professional help for mental health concerns.</p>" 
+            },
+            feedback: {
+                title: "Station Feedback",
+                content: `
+                    <p>Help us improve your interstellar journey. Your thoughts are invaluable for maintaining the zen frequency of this station.</p>
+                    <div class="bg-cyan-500/10 border border-cyan-500/30 p-6 rounded-2xl mt-4">
+                        <p class="text-cyan-200 mb-4">Would you like to provide anonymous feedback via Google Forms?</p>
+                        <a href="${FEEDBACK_FORM_URL}" target="_blank" class="inline-block bg-cyan-500 text-white px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-cyan-400 transition-all">Open Feedback Form</a>
+                    </div>
+                `
             }
         };
 
@@ -290,6 +312,7 @@
             elements.stressCheck.classList.add('hidden');
             if (relieved) {
                 state.stressReduced = Math.min(state.stressReduced + 15, 100);
+                setTimeout(() => showLegal('feedback'), 1000);
             }
         }
 
@@ -363,7 +386,6 @@
             state.lumen += gain;
             elements.lumen.textContent = state.lumen.toLocaleString();
             
-            // Dynamic stress reduction based on flow state
             if (state.flowLevel > 0.8) {
                 state.stressReduced = Math.min(state.stressReduced + 0.05, 100);
             }
@@ -384,29 +406,25 @@
             const theme = getAstrologicalTheme();
             
             ctx.fillStyle = theme.bg;
-            ctx.globalAlpha = 0.2;
+            ctx.globalAlpha = 0.25;
             ctx.fillRect(0, 0, state.width, state.height);
             ctx.globalAlpha = 1;
 
-            // Trigger Stress Check after 45 seconds
-            if (!state.checkInShown && (Date.now() - state.playStartTime) > 45000) {
+            if (!state.checkInShown && (Date.now() - state.playStartTime) > 60000) {
                 state.checkInShown = true;
                 elements.stressCheck.classList.remove('hidden');
             }
 
-            // Flow mechanics
             if (state.mouse.active) state.flowLevel = Math.min(state.flowLevel + 0.005, 1);
             else state.flowLevel = Math.max(state.flowLevel - 0.005, 0);
             
             elements.mult.textContent = `x${(1 + state.flowLevel * 2).toFixed(1)}`;
             elements.multBar.style.width = `${state.flowLevel * 100}%`;
 
-            // Movement
             state.char.x += (state.mouse.x - state.char.x) * 0.08;
             state.char.y += (state.mouse.y - state.char.y) * 0.08;
             state.char.angle = Math.atan2(state.mouse.y - state.char.y, state.mouse.x - state.char.x);
 
-            // Time-based aura
             ctx.beginPath();
             const grad = ctx.createRadialGradient(state.char.x, state.char.y, 0, state.char.x, state.char.y, 150 + state.flowLevel * 100);
             grad.addColorStop(0, theme.aura);
@@ -415,7 +433,6 @@
             ctx.arc(state.char.x, state.char.y, 250, 0, Math.PI*2);
             ctx.fill();
 
-            // Ripples
             state.ripples.forEach(r => {
                 r.r += 4; r.a -= 0.02;
                 ctx.beginPath();
@@ -425,7 +442,6 @@
             });
             state.ripples = state.ripples.filter(r => r.a > 0);
 
-            // Seeds
             state.seeds.forEach((s, i) => {
                 s.pulse += 0.05;
                 const size = s.r + Math.sin(s.pulse);
@@ -440,7 +456,6 @@
                 if (Math.hypot(s.x - state.char.x, s.y - state.char.y) < 40) collectSeed(i, s);
             });
 
-            // Character
             ctx.save();
             ctx.translate(state.char.x, state.char.y);
             ctx.rotate(state.char.angle);
