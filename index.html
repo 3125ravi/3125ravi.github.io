@@ -3,7 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>eTanav | Solar Journey</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>eTanav | Interstellar Stress Relief & Solar Journey</title>
+    <meta name="title" content="eTanav | Interstellar Stress Relief & Solar Journey">
+    <meta name="description" content="Embark on a calming planetary expedition through the solar system. eTanav is a zen-based stress relief experience designed to improve mental well-being through interactive flow state mechanics.">
+    <meta name="keywords" content="eTanav, stress relief, zen game, solar system journey, mental health app, relaxation experience, interactive flow, meditation game">
+    <meta name="author" content="eTanav Team">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://etanav.expedition.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://etanav.expedition.com/">
+    <meta property="og:title" content="eTanav | Interstellar Stress Relief & Solar Journey">
+    <meta property="og:description" content="A unique interactive journey through the planets designed to help you reach a state of zen and reduce daily stress.">
+    <meta property="og:image" content="image_e5efe3.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://etanav.expedition.com/">
+    <meta property="twitter:title" content="eTanav | Interstellar Stress Relief & Solar Journey">
+    <meta property="twitter:description" content="Relieve stress through a planetary expedition. Experience the calming flow of eTanav.">
+    <meta property="twitter:image" content="image_e5efe3.jpg">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body, html { 
@@ -48,7 +71,7 @@
         <!-- Integrated Logo -->
         <img src="image_e5efe3.jpg" alt="eTanav Logo" class="w-32 h-32 mb-6 rounded-full logo-glow object-cover border-2 border-cyan-400/30">
         
-        <h1 class="text-cyan-400 text-5xl font-extralight tracking-[0.3em] mb-2 uppercase">eTanav</h1>
+        <h1 class="text-cyan-400 text-5xl font-extralight tracking-[0.3em] mb-2">eTanav</h1>
         <p class="text-cyan-200/40 text-sm tracking-widest mb-12 uppercase">Interstellar Stress Relief</p>
         
         <div class="w-full max-w-xs space-y-4">
@@ -68,7 +91,6 @@
     <div id="hud" class="absolute top-8 left-0 w-full flex justify-between px-8 pointer-events-none z-10 font-sans opacity-0 transition-opacity duration-1000">
         <div class="flex flex-col">
             <div class="flex items-center gap-3 mb-1">
-                <!-- Small HUD Logo -->
                 <img src="image_e5efe3.jpg" alt="Logo" class="w-8 h-8 rounded-full border border-cyan-400/50 object-cover">
                 <span class="text-cyan-400 font-bold tracking-tighter text-xl">eTanav</span>
                 <span class="text-white/20 text-[10px] uppercase tracking-widest">|</span>
@@ -113,7 +135,6 @@
             { name: "Pluto", color: "120, 120, 140", hue: 250 }
         ];
 
-        // UI Elements
         const lumenEl = document.getElementById('lumen-display');
         const multEl = document.getElementById('multiplier-display');
         const multBar = document.getElementById('multiplier-bar');
@@ -128,7 +149,6 @@
         const footerUi = document.getElementById('footer-ui');
         const notificationContainer = document.getElementById('notification-container');
 
-        // Game State
         const state = {
             width: 0, height: 0,
             lumen: 0,
