@@ -1,279 +1,367 @@
 <!DOCTYPE html>
-<html>
-<title>Welcome to eTanav Application</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
-</style>
-<body class="w3-theme-l5">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>eTanav | Solar Journey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: #080a12;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+            font-family: 'Inter', sans-serif;
+        }
+        canvas { 
+            display: block; 
+        }
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+        #onboarding {
+            background: radial-gradient(circle at center, #1a1c2c 0%, #080a12 100%);
+        }
+        @keyframes notify-fade {
+            0% { opacity: 0; transform: translateY(20px); scale: 0.9; }
+            15% { opacity: 1; transform: translateY(0px); scale: 1; }
+            85% { opacity: 1; transform: translateY(0px); scale: 1; }
+            100% { opacity: 0; transform: translateY(-20px); scale: 0.9; }
+        }
+        .animate-notify {
+            animation: notify-fade 4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .logo-glow {
+            filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.4));
+        }
+    </style>
+</head>
+<body>
 
-<!-- Navbar -->
-<div class="w3-top">
- <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Logo</a>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
-  <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>     
-    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="#" class="w3-bar-item w3-button">One new friend request</a>
-      <a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
-      <a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
+    <!-- Onboarding Screen -->
+    <div id="onboarding" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center">
+        <!-- Integrated Logo -->
+        <img src="image_e5efe3.jpg" alt="eTanav Logo" class="w-32 h-32 mb-6 rounded-full logo-glow object-cover border-2 border-cyan-400/30">
+        
+        <h1 class="text-cyan-400 text-5xl font-extralight tracking-[0.3em] mb-2 uppercase">eTanav</h1>
+        <p class="text-cyan-200/40 text-sm tracking-widest mb-12 uppercase">Interstellar Stress Relief</p>
+        
+        <div class="w-full max-w-xs space-y-4">
+            <input type="text" id="name-input" placeholder="Enter your name" 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-center focus:outline-none focus:border-cyan-400/50 transition-all">
+            <button id="start-btn" 
+                class="w-full bg-cyan-500 text-white rounded-xl py-4 font-bold tracking-widest hover:bg-cyan-400 transition-all uppercase text-sm shadow-lg shadow-cyan-900/20">
+                Begin Expedition
+            </button>
+        </div>
     </div>
-  </div>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-    <img src="https://www.w3schools.com/w3images/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
-  </a>
- </div>
-</div>
 
-<!-- Navbar on small screens -->
-<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
-</div>
+    <!-- Notification Overlay -->
+    <div id="notification-container" class="fixed top-32 left-0 w-full flex flex-col items-center gap-4 pointer-events-none z-40"></div>
 
-<!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
-  <!-- The Grid -->
-  <div class="w3-row">
-    <!-- Left Column -->
-    <div class="w3-col m3">
-      <!-- Profile -->
-      <div class="w3-card w3-round w3-white">
-        <div class="w3-container">
-         <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="https://www.w3schools.com/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-         <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
-         <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-         <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+    <!-- HUD -->
+    <div id="hud" class="absolute top-8 left-0 w-full flex justify-between px-8 pointer-events-none z-10 font-sans opacity-0 transition-opacity duration-1000">
+        <div class="flex flex-col">
+            <div class="flex items-center gap-3 mb-1">
+                <!-- Small HUD Logo -->
+                <img src="image_e5efe3.jpg" alt="Logo" class="w-8 h-8 rounded-full border border-cyan-400/50 object-cover">
+                <span class="text-cyan-400 font-bold tracking-tighter text-xl">eTanav</span>
+                <span class="text-white/20 text-[10px] uppercase tracking-widest">|</span>
+                <span id="user-greeting" class="text-white/40 text-[10px] uppercase tracking-widest">Traveler</span>
+            </div>
+            <span class="text-cyan-500/50 text-[10px] uppercase tracking-[0.2em] font-bold ml-11">Zen Energy</span>
+            <span id="lumen-display" class="text-white text-4xl font-extralight tabular-nums ml-11">0</span>
         </div>
-      </div>
-      <br>
-      
-      <!-- Accordion -->
-      <div class="w3-card w3-round">
-        <div class="w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
-          <div id="Demo1" class="w3-hide w3-container">
-            <p>Some text..</p>
-          </div>
-          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
-          <div id="Demo2" class="w3-hide w3-container">
-            <p>Some other text..</p>
-          </div>
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
-          <div id="Demo3" class="w3-hide w3-container">
-         <div class="w3-row-padding">
-         <br>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/forest.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="https://www.w3schools.com/w3images/fjords.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-         </div>
-          </div>
-        </div>      
-      </div>
-      <br>
-      
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>Interests</p>
-          <p>
-            <span class="w3-tag w3-small w3-theme-d5">News</span>
-            <span class="w3-tag w3-small w3-theme-d4">W3Schools</span>
-            <span class="w3-tag w3-small w3-theme-d3">Labels</span>
-            <span class="w3-tag w3-small w3-theme-d2">Games</span>
-            <span class="w3-tag w3-small w3-theme-d1">Friends</span>
-            <span class="w3-tag w3-small w3-theme">Games</span>
-            <span class="w3-tag w3-small w3-theme-l1">Friends</span>
-            <span class="w3-tag w3-small w3-theme-l2">Food</span>
-            <span class="w3-tag w3-small w3-theme-l3">Design</span>
-            <span class="w3-tag w3-small w3-theme-l4">Art</span>
-            <span class="w3-tag w3-small w3-theme-l5">Photos</span>
-          </p>
+        <div class="flex flex-col items-end">
+            <span id="planet-label" class="text-cyan-500/50 text-[10px] uppercase tracking-[0.2em] font-bold">Destination: Mercury</span>
+            <span id="multiplier-display" class="text-cyan-300 text-4xl font-extralight">x1.0</span>
+            <div class="w-32 h-1 bg-white/10 mt-2 rounded-full overflow-hidden">
+                <div id="multiplier-bar" class="h-full bg-cyan-400 shadow-[0_0_10px_#22d3ee] transition-all duration-500" style="width: 0%"></div>
+            </div>
         </div>
-      </div>
-      <br>
-      
-      <!-- Alert Box -->
-      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
-        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
-          <i class="fa fa-remove"></i>
-        </span>
-        <p><strong>Hey!</strong></p>
-        <p>People are looking at your profile. Find out who.</p>
-      </div>
-    
-    <!-- End Left Column -->
     </div>
-    
-    <!-- Middle Column -->
-    <div class="w3-col m7">
-    
-      <div class="w3-row-padding">
-        <div class="w3-col m12">
-          <div class="w3-card w3-round w3-white">
-            <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">Social Media template by w3.css</h6>
-              <p contenteditable="true" class="w3-border w3-padding">Status: Feeling Blue</p>
-              <button type="button" class="w3-button w3-theme"><i class="fa fa-pencil"></i>  Post</button> 
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">1 min</span>
-        <h4>John Doe</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-          <div class="w3-row-padding" style="margin:0 -16px">
-            <div class="w3-half">
-              <img src="https://www.w3schools.com/w3images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-            </div>
-            <div class="w3-half">
-              <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-          </div>
-        </div>
-        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
-        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
-      </div>
-      
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <img src="https://www.w3schools.com/w3images/avatar5.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">16 min</span>
-        <h4>Jane Doe</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
-        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
-      </div>  
 
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <img src="https://www.w3schools.com/w3images/avatar6.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity">32 min</span>
-        <h4>Angie Jane</h4><br>
-        <hr class="w3-clear">
-        <p>Have you seen this?</p>
-        <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
-        <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
-      </div> 
-      
-    <!-- End Middle Column -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Progress & Controls -->
+    <div id="footer-ui" class="absolute bottom-10 left-0 w-full flex flex-col items-center pointer-events-none font-sans opacity-0 transition-opacity duration-1000">
+        <div id="stage-display" class="text-white/20 text-[10px] uppercase tracking-[0.4em] mb-2 font-bold tabular-nums">Mercury Expedition</div>
+        <div class="w-48 h-0.5 bg-white/5 rounded-full mb-2 overflow-hidden">
+             <div id="stage-bar" class="h-full bg-white/20 transition-all duration-1000" style="width: 0%"></div>
+        </div>
+        <p class="text-cyan-200/40 text-[9px] uppercase tracking-widest">Move steadily • Tap for Stress Buster</p>
     </div>
-    
-    <!-- Right Column -->
-    <div class="w3-col m2">
-      <div class="w3-card w3-round w3-white w3-center">
-        <div class="w3-container">
-          <p>Upcoming Events:</p>
-          <img src="https://www.w3schools.com/w3images/forest.jpg" alt="Forest" style="width:100%;">
-          <p><strong>Holiday</strong></p>
-          <p>Friday 15:00</p>
-          <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
-        </div>
-      </div>
-      <br>
-      
-      <div class="w3-card w3-round w3-white w3-center">
-        <div class="w3-container">
-          <p>Friend Request</p>
-          <img src="https://www.w3schools.com/w3images/avatar6.png" alt="Avatar" style="width:50%"><br>
-          <span>Jane Doe</span>
-          <div class="w3-row w3-opacity">
-            <div class="w3-half">
-              <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
-            </div>
-            <div class="w3-half">
-              <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br>
-      
-      <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
-        <p>ADS</p>
-      </div>
-      <br>
-      
-      <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-        <p><i class="fa fa-bug w3-xxlarge"></i></p>
-      </div>
-      
-    <!-- End Right Column -->
-    </div>
-    
-  <!-- End Grid -->
-  </div>
-  
-<!-- End Page Container -->
-</div>
-<br>
 
-<!-- Footer -->
-<footer class="w3-container w3-theme-d3 w3-padding-16">
-  <h5>Footer</h5>
-</footer>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const PLANETS = [
+            { name: "Mercury", color: "150, 150, 150", hue: 200 },
+            { name: "Venus", color: "255, 190, 100", hue: 40 },
+            { name: "Earth", color: "100, 150, 255", hue: 210 },
+            { name: "Mars", color: "255, 100, 80", hue: 10 },
+            { name: "Jupiter", color: "220, 180, 150", hue: 30 },
+            { name: "Saturn", color: "240, 210, 140", hue: 45 },
+            { name: "Uranus", color: "180, 230, 255", hue: 190 },
+            { name: "Neptune", color: "80, 120, 255", hue: 225 },
+            { name: "Pluto", color: "120, 120, 140", hue: 250 }
+        ];
 
-<footer class="w3-container w3-theme-d5">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
-  <p>Note: This is a sample site</p>
-</footer>
- 
-<script>
-// Accordion
-function myFunction(id) {
-    var x = document.getElementById(id);
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-        x.previousElementSibling.className += " w3-theme-d1";
-    } else { 
-        x.className = x.className.replace("w3-show", "");
-        x.previousElementSibling.className = 
-        x.previousElementSibling.className.replace(" w3-theme-d1", "");
-    }
-}
+        // UI Elements
+        const lumenEl = document.getElementById('lumen-display');
+        const multEl = document.getElementById('multiplier-display');
+        const multBar = document.getElementById('multiplier-bar');
+        const stageEl = document.getElementById('stage-display');
+        const stageBar = document.getElementById('stage-bar');
+        const planetLabel = document.getElementById('planet-label');
+        const onboarding = document.getElementById('onboarding');
+        const nameInput = document.getElementById('name-input');
+        const startBtn = document.getElementById('start-btn');
+        const userGreeting = document.getElementById('user-greeting');
+        const hud = document.getElementById('hud');
+        const footerUi = document.getElementById('footer-ui');
+        const notificationContainer = document.getElementById('notification-container');
 
-// Used to toggle the menu on smaller screens when clicking on the menu button
-function openNav() {
-    var x = document.getElementById("navDemo");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else { 
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
-</script>
+        // Game State
+        const state = {
+            width: 0, height: 0,
+            lumen: 0,
+            highScore: parseInt(localStorage.getItem('eTanav_highScore')) || 0,
+            level: 1,
+            multiplier: 1,
+            flowLevel: 0,
+            particles: [],
+            seeds: [],
+            ripples: [],
+            char: { x: 0, y: 0, angle: 0 },
+            mouse: { x: 0, y: 0, px: 0, py: 0, active: false },
+            isStarted: false,
+            notifiedHighScore: false,
+            startTime: 0,
+            levelStartTime: 0
+        };
 
+        const savedName = localStorage.getItem('eTanav_userName');
+        if (savedName) nameInput.value = savedName;
+
+        startBtn.onclick = () => {
+            const name = nameInput.value.trim() || "Traveler";
+            localStorage.setItem('eTanav_userName', name);
+            userGreeting.textContent = name;
+            
+            onboarding.style.opacity = '0';
+            setTimeout(() => {
+                onboarding.style.display = 'none';
+                hud.style.opacity = '1';
+                footerUi.style.opacity = '1';
+                state.isStarted = true;
+                state.startTime = Date.now();
+                state.levelStartTime = Date.now();
+                initGame();
+            }, 1000);
+        };
+
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+        }
+
+        function showNotification(title, subtitle) {
+            const div = document.createElement('div');
+            div.className = "bg-white/10 border border-white/20 text-white p-6 rounded-2xl backdrop-blur-xl shadow-2xl animate-notify text-center min-w-[280px]";
+            div.innerHTML = `
+                <div class="text-cyan-400 text-[10px] uppercase tracking-[0.3em] font-bold mb-1">${title}</div>
+                <div class="text-lg font-light tracking-wide">${subtitle}</div>
+            `;
+            notificationContainer.appendChild(div);
+            setTimeout(() => div.remove(), 4500);
+        }
+
+        function initGame() {
+            resize();
+            state.char.x = window.innerWidth / 2;
+            state.char.y = window.innerHeight / 2;
+            for(let i=0; i<6; i++) state.seeds.push(createSeed());
+            
+            window.addEventListener('resize', resize);
+            window.addEventListener('pointerdown', handlePointerDown);
+            window.addEventListener('pointermove', handlePointerMove);
+            window.addEventListener('pointerup', () => state.mouse.active = false);
+
+            requestAnimationFrame(animate);
+        }
+
+        function resize() {
+            state.width = canvas.width = window.innerWidth;
+            state.height = canvas.height = window.innerHeight;
+        }
+
+        function createSeed() {
+            return {
+                x: Math.random() * (state.width || window.innerWidth),
+                y: Math.random() * (state.height || window.innerHeight),
+                r: Math.random() * 3 + 2,
+                pulse: Math.random() * Math.PI * 2
+            };
+        }
+
+        function handlePointerDown(e) {
+            if (!state.isStarted) return;
+            state.mouse.active = true;
+            state.mouse.x = e.clientX;
+            state.mouse.y = e.clientY;
+            state.ripples.push({ x: e.clientX, y: e.clientY, r: 0, a: 1 });
+        }
+
+        function handlePointerMove(e) {
+            state.mouse.x = e.clientX;
+            state.mouse.y = e.clientY;
+        }
+
+        function collectSeed(index, seed, fromRipple) {
+            const gain = Math.floor((fromRipple ? 8 : 20) * (1 + state.flowLevel * 2));
+            state.lumen += gain;
+            
+            lumenEl.textContent = state.lumen.toLocaleString();
+            
+            if (state.lumen > state.highScore && state.highScore > 0 && !state.notifiedHighScore) {
+                showNotification("Achievement", "New Personal Best Reached!");
+                state.notifiedHighScore = true;
+            }
+            
+            if (state.lumen > state.highScore) {
+                state.highScore = state.lumen;
+                localStorage.setItem('eTanav_highScore', state.highScore);
+            }
+
+            const nextThreshold = state.level * 1000;
+            if (state.lumen >= nextThreshold) {
+                const timeTaken = formatTime(Date.now() - state.levelStartTime);
+                const oldPlanet = PLANETS[(state.level - 1) % PLANETS.length].name;
+                
+                state.level++;
+                state.levelStartTime = Date.now();
+                
+                const newPlanetIdx = (state.level - 1) % PLANETS.length;
+                const newPlanet = PLANETS[newPlanetIdx];
+                
+                stageEl.textContent = `${newPlanet.name} Expedition`;
+                planetLabel.textContent = `Destination: ${newPlanet.name}`;
+                
+                showNotification(
+                    `Congratulations ${userGreeting.textContent}!`, 
+                    `Reached ${newPlanet.name} from ${oldPlanet} in ${timeTaken}`
+                );
+            }
+            
+            const progress = (state.lumen % 1000) / 10;
+            stageBar.style.width = `${progress}%`;
+
+            state.seeds[index] = createSeed();
+            for(let i=0; i<8; i++) {
+                state.particles.push({
+                    x: seed.x, y: seed.y,
+                    vx: (Math.random()-0.5)*4, vy: (Math.random()-0.5)*4,
+                    life: 1, c: '255, 250, 200'
+                });
+            }
+        }
+
+        function animate() {
+            if (!state.isStarted) return;
+            const { width, height, mouse, char, level } = state;
+            const currentPlanet = PLANETS[(level - 1) % PLANETS.length];
+
+            ctx.fillStyle = `rgba(${currentPlanet.color}, 0.05)`;
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(8, 10, 18, 0.15)';
+            ctx.fillRect(0, 0, width, height);
+
+            const dx = mouse.x - char.x;
+            const dy = mouse.y - char.y;
+            char.x += dx * 0.08;
+            char.y += dy * 0.08;
+            char.angle = Math.atan2(dy, dx);
+
+            if (mouse.active) {
+                const dist = Math.hypot(mouse.x - mouse.px, mouse.y - mouse.py);
+                if (dist > 1 && dist < 15) {
+                    state.flowLevel = Math.min(state.flowLevel + 0.005, 1);
+                } else {
+                    state.flowLevel = Math.max(state.flowLevel - 0.01, 0);
+                }
+            } else {
+                state.flowLevel = Math.max(state.flowLevel - 0.005, 0);
+            }
+
+            const multValue = 1 + (state.flowLevel * 2);
+            multEl.textContent = `x${multValue.toFixed(1)}`;
+            multBar.style.width = `${(multValue - 1) / 2 * 100}%`;
+
+            state.ripples.forEach((r) => {
+                r.r += 6; r.a -= 0.02;
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(100, 255, 255, ${r.a})`;
+                ctx.lineWidth = 2;
+                ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2);
+                ctx.stroke();
+
+                state.seeds.forEach((seed, idx) => {
+                    const sd = Math.hypot(seed.x - r.x, seed.y - r.y);
+                    if (Math.abs(sd - r.r) < 15) collectSeed(idx, seed, true);
+                });
+            });
+            state.ripples = state.ripples.filter(r => r.a > 0);
+
+            state.seeds.forEach((seed, index) => {
+                seed.pulse += 0.04;
+                const sSize = seed.r + Math.sin(seed.pulse) * 2;
+                ctx.beginPath();
+                const g = ctx.createRadialGradient(seed.x, seed.y, 0, seed.x, seed.y, sSize * 4);
+                g.addColorStop(0, `rgba(${currentPlanet.color}, 0.8)`);
+                g.addColorStop(1, `rgba(${currentPlanet.color}, 0)`);
+                ctx.fillStyle = g;
+                ctx.arc(seed.x, seed.y, sSize * 4, 0, Math.PI * 2);
+                ctx.fill();
+                const d = Math.hypot(seed.x - char.x, seed.y - char.y);
+                if (d < 45) collectSeed(index, seed, false);
+            });
+
+            state.particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+                ctx.fillStyle = `rgba(${p.c}, ${p.life})`;
+                ctx.fillRect(p.x, p.y, 2, 2);
+            });
+            state.particles = state.particles.filter(p => p.life > 0);
+
+            const time = Date.now() * 0.005;
+            ctx.save();
+            ctx.translate(char.x, char.y);
+            ctx.rotate(char.angle);
+            for(let i=0; i<3; i++) {
+                const ox = -i * 10;
+                const oy = Math.sin(time + i) * 5;
+                const opacity = 0.6 - (i * 0.2);
+                ctx.beginPath();
+                ctx.fillStyle = `hsla(${currentPlanet.hue + state.flowLevel * 30}, 100%, 70%, ${opacity})`;
+                ctx.arc(ox, oy, 12 - i*3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.fillStyle = "white"; ctx.beginPath();
+            ctx.arc(5, -4, 2, 0, Math.PI * 2); ctx.arc(5, 4, 2, 0, Math.PI * 2);
+            ctx.fill(); ctx.restore();
+
+            state.mouse.px = mouse.x; state.mouse.py = mouse.y;
+            requestAnimationFrame(animate);
+        }
+    </script>
 </body>
-</html> 
+</html>
