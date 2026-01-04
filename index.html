@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <!-- Primary Meta Tags -->
     <title>eTanav | Interstellar Stress Relief & Solar Journey</title>
     <meta name="title" content="eTanav | Interstellar Stress Relief & Solar Journey">
     <meta name="description" content="Embark on a calming planetary expedition through the solar system. eTanav is a zen-based stress relief experience designed to improve mental well-being through interactive flow state mechanics.">
@@ -31,6 +30,13 @@
         
         #onboarding {
             background: radial-gradient(circle at center, #1a1c2c 0%, #080a12 100%);
+            transition: all 0.8s ease-out;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .planet-glow {
@@ -47,17 +53,21 @@
         .legal-scroll::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); }
         .legal-scroll::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.3); border-radius: 10px; }
 
-        /* Enhanced Footer Legibility */
         .footer-text {
             text-shadow: 0 1px 4px rgba(0,0,0,0.8);
         }
 
-        /* Stress Meter Animation */
         @keyframes slide-up {
             from { transform: translateY(100%); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
         .animate-slide-up { animation: slide-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        
+        @keyframes pulse-cyan {
+            0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(34, 211, 238, 0.4); }
+        }
+        .pulse-glow { animation: pulse-cyan 3s infinite; }
     </style>
 </head>
 <body>
@@ -73,25 +83,38 @@
         <p class="text-cyan-200/40 text-sm tracking-widest mb-12 uppercase">Interstellar Stress Relief</p>
         
         <div class="w-full max-w-xs space-y-4">
-            <div id="onboarding-score" class="hidden mb-4 py-2 border-y border-white/5">
-                <p class="text-cyan-500/50 text-[10px] uppercase tracking-widest font-bold mb-1">Last Expedition Peak</p>
-                <p id="onboarding-high-score" class="text-white text-2xl font-extralight tabular-nums">0</p>
+            <!-- Returning User View -->
+            <div id="returning-view" class="hidden">
+                <div class="glass rounded-3xl p-6 mb-6 text-left border-cyan-500/30">
+                    <p class="text-cyan-400/60 text-[10px] uppercase tracking-[0.2em] font-bold mb-4">Welcome Back</p>
+                    <h2 id="display-name" class="text-white text-2xl font-light mb-6">Traveler</h2>
+                    
+                    <div class="space-y-4 mb-2">
+                        <div class="flex justify-between items-center">
+                            <span class="text-white/40 text-[9px] uppercase tracking-widest">Total Energy</span>
+                            <span id="stat-lumens" class="text-white text-sm font-medium tabular-nums">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-white/40 text-[9px] uppercase tracking-widest">Global Peace</span>
+                            <span id="stat-stress" class="text-pink-400 text-sm font-medium">0%</span>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="startExpedition()" class="w-full bg-cyan-500 text-white rounded-2xl py-5 font-bold tracking-widest hover:bg-cyan-400 transition-all uppercase text-xs shadow-xl pulse-glow">
+                    Continue Journey
+                </button>
+                <button onclick="clearSession()" class="mt-4 text-white/20 text-[9px] uppercase tracking-[0.2em] hover:text-white transition-colors">Not you? Switch Profile</button>
             </div>
 
-            <input type="text" id="name-input" placeholder="Enter your name" 
-                class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-center focus:outline-none focus:border-cyan-400/50 transition-all">
-            <button id="start-btn" 
-                class="w-full bg-cyan-500 text-white rounded-xl py-4 font-bold tracking-widest hover:bg-cyan-400 transition-all uppercase text-sm shadow-lg shadow-cyan-900/20">
-                Begin Expedition
-            </button>
-        </div>
-
-        <div class="absolute bottom-8 text-[11px] text-white/50 tracking-widest uppercase font-medium">
-            <button onclick="showLegal('privacy')" class="hover:text-cyan-400 transition-colors">Privacy Policy</button>
-            <span class="mx-2 text-white/20">•</span>
-            <button onclick="showLegal('terms')" class="hover:text-cyan-400 transition-colors">Terms of Use</button>
-            <span class="mx-2 text-white/20">•</span>
-            <button onclick="showLegal('feedback')" class="hover:text-cyan-400 transition-colors">Feedback</button>
+            <!-- New User View -->
+            <div id="new-user-view" class="space-y-4">
+                <input type="text" id="name-input" placeholder="Enter your name" 
+                    class="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white text-center focus:outline-none focus:border-cyan-400/50 transition-all placeholder:text-white/20">
+                <button onclick="startExpedition()" 
+                    class="w-full bg-cyan-500 text-white rounded-xl py-4 font-bold tracking-widest hover:bg-cyan-400 transition-all uppercase text-sm shadow-lg">
+                    Begin Expedition
+                </button>
+            </div>
         </div>
     </div>
 
@@ -101,8 +124,8 @@
             <h3 class="text-cyan-400 text-xs font-bold tracking-widest uppercase mb-4">Mental Check-in</h3>
             <p class="text-white/90 text-sm font-medium mb-6">How do you feel now compared to when you started?</p>
             <div class="flex flex-col gap-3">
-                <button onclick="recordStress(true)" class="w-full bg-cyan-500/20 hover:bg-cyan-500/40 border border-cyan-500/50 text-cyan-300 px-4 py-3 rounded-lg text-xs transition-all uppercase font-bold tracking-widest">Much Better</button>
-                <button onclick="recordStress(false)" class="w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white/80 px-4 py-3 rounded-lg text-xs transition-all uppercase tracking-widest">No Change</button>
+                <button onclick="recordStress(true)" class="w-full bg-cyan-500 text-white px-4 py-3 rounded-lg text-xs transition-all uppercase font-bold tracking-widest">Much Better</button>
+                <button onclick="recordStress(false)" class="w-full bg-white/10 text-white/80 px-4 py-3 rounded-lg text-xs transition-all uppercase tracking-widest">No Change</button>
             </div>
         </div>
     </div>
@@ -111,7 +134,7 @@
     <div id="hud" class="absolute top-8 left-0 w-full flex justify-between px-8 pointer-events-none z-10 opacity-0 transition-opacity duration-1000">
         <div class="flex flex-col">
             <div class="flex items-center gap-3 mb-1">
-                <img src="image_e5efe3.jpg" alt="Logo" class="w-8 h-8 rounded-full border border-cyan-400/50 object-cover">
+                <img src="image_e5efe3.png" alt="Logo" class="w-8 h-8 rounded-full border border-cyan-400/50 object-cover">
                 <span class="text-cyan-400 font-bold tracking-tighter text-xl footer-text">eTanav</span>
                 <span class="text-white/20 text-[10px] uppercase tracking-widest">|</span>
                 <span id="user-greeting" class="text-white/60 text-[10px] uppercase tracking-widest font-bold footer-text">Traveler</span>
@@ -145,6 +168,37 @@
         </div>
     </div>
 
+    <!-- Summary Screen -->
+    <div id="summary-screen" class="fixed inset-0 z-[60] bg-black/95 backdrop-blur-3xl flex items-center justify-center p-6 hidden">
+        <div class="w-full max-w-md text-center">
+            <h2 class="text-cyan-400 text-xs font-bold tracking-[0.4em] uppercase mb-12">Expedition Summary</h2>
+            
+            <div class="grid grid-cols-2 gap-4 mb-12">
+                <div class="glass p-6 rounded-3xl">
+                    <p class="text-white/40 text-[9px] uppercase tracking-widest mb-1">Session Energy</p>
+                    <p id="summary-lumen" class="text-white text-3xl font-extralight tabular-nums">0</p>
+                </div>
+                <div class="glass p-6 rounded-3xl">
+                    <p class="text-pink-500/40 text-[9px] uppercase tracking-widest mb-1">Session Calm</p>
+                    <p id="summary-stress" class="text-pink-400 text-3xl font-extralight tabular-nums">0%</p>
+                </div>
+            </div>
+
+            <div class="mb-12 space-y-4 text-left">
+                <div class="flex items-center gap-4">
+                    <div class="w-1 h-8 bg-cyan-500/50 rounded-full"></div>
+                    <div>
+                        <p class="text-white text-xs font-bold tracking-widest uppercase">Flow State Achieved</p>
+                        <p class="text-white/40 text-[10px]">Synchronized movement helps regulate the nervous system.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="restartExpedition()" class="w-full bg-white text-black rounded-2xl py-5 font-bold tracking-widest uppercase text-xs">Continue Exploration</button>
+            <button onclick="location.reload()" class="mt-6 text-white/20 text-[9px] uppercase tracking-[0.2em] hover:text-white transition-colors">Return to Base</button>
+        </div>
+    </div>
+
     <canvas id="gameCanvas"></canvas>
 
     <!-- Progress & Quotes Footer -->
@@ -159,12 +213,12 @@
              <div id="stage-bar" class="h-full bg-cyan-400/60 shadow-[0_0_8px_rgba(34,211,238,0.5)] transition-all duration-1000" style="width: 0%"></div>
         </div>
         
-        <div class="flex gap-6 pointer-events-auto">
-            <button onclick="showLegal('disclaimer')" class="text-white/40 hover:text-white text-[9px] uppercase tracking-[0.2em] font-bold transition-colors footer-text">Medical Disclaimer</button>
+        <div class="flex gap-6 pointer-events-auto items-center">
+            <button onclick="showLegal('disclaimer')" class="text-white/40 hover:text-white text-[9px] uppercase tracking-[0.2em] font-bold transition-colors footer-text">Disclaimer</button>
             <span class="text-white/10 text-[9px]">|</span>
-            <button onclick="showLegal('feedback')" class="text-white/40 hover:text-white text-[9px] uppercase tracking-[0.2em] font-bold transition-colors footer-text">Share Feedback</button>
+            <button onclick="showSummary()" class="text-cyan-400/80 hover:text-cyan-400 text-[9px] uppercase tracking-[0.4em] font-bold transition-all px-4 py-1 border border-cyan-400/20 rounded-full">End Session</button>
             <span class="text-white/10 text-[9px]">|</span>
-            <span class="text-white/30 text-[9px] uppercase tracking-[0.2em] font-bold footer-text">© 2026 eTanav</span>
+            <button onclick="showLegal('feedback')" class="text-white/40 hover:text-white text-[9px] uppercase tracking-[0.2em] font-bold transition-colors footer-text">Feedback</button>
         </div>
     </div>
 
@@ -201,21 +255,9 @@
         };
 
         const legalData = {
-            privacy: { 
-                title: "Privacy Policy", 
-                content: `
-                    <p><strong>Your Privacy:</strong> We respect your space. All score and name data is stored locally in your browser (LocalStorage). No personal data is transmitted to our servers.</p>
-                    <p><strong>Third-Party Content:</strong> This app uses the <a href="https://api.quotable.io" class="text-cyan-400 underline" target="_blank">Quotable API</a> to provide zen-focused inspiration. When fetching quotes, your IP address is visible to their server as per standard web protocols.</p>
-                ` 
-            },
-            terms: { 
-                title: "Terms of Use", 
-                content: `
-                    <p>eTanav is an interactive art piece. Use it to relax. Do not use while operating heavy machinery or in situations requiring high focus.</p>
-                    <p><strong>Credits:</strong> Inspirational content is powered by <a href="https://api.quotable.io" class="text-cyan-400 underline" target="_blank">Quotable</a>. All quotes are used for informational and decorative purposes.</p>
-                ` 
-            },
-            disclaimer: { 
+            privacy: { title: "Privacy Policy", content: `<p><strong>Your Privacy:</strong> LocalStorage is used for your profile. No data leaves your device.</p>` },
+            terms: { title: "Terms of Use", content: `<p>eTanav is an interactive art piece. Use for relaxation purposes only.</p>` },
+             disclaimer: { 
                 title: "Medical Disclaimer", 
                 content: "<p>eTanav is for entertainment and relaxation. It is not a clinical tool or medical treatment for anxiety or depression. Always seek professional help for mental health concerns.</p>" 
             },
@@ -234,11 +276,9 @@
         const state = {
             width: 0, height: 0,
             lumen: 0,
-            highScore: parseInt(localStorage.getItem('eTanav_highScore')) || 0,
             level: 1,
             multiplier: 1,
             flowLevel: 0,
-            particles: [],
             seeds: [],
             ripples: [],
             char: { x: 0, y: 0, angle: 0 },
@@ -246,10 +286,17 @@
             isStarted: false,
             playStartTime: 0,
             stressReduced: 0,
-            checkInShown: false
+            checkInShown: false,
+            // Persistence
+            userName: localStorage.getItem('eTanav_userName') || "",
+            totalLumens: parseInt(localStorage.getItem('eTanav_totalLumens')) || 0,
+            totalStress: parseInt(localStorage.getItem('eTanav_totalStress')) || 0
         };
 
         const elements = {
+            onboarding: document.getElementById('onboarding'),
+            newView: document.getElementById('new-user-view'),
+            retView: document.getElementById('returning-view'),
             lumen: document.getElementById('lumen-display'),
             mult: document.getElementById('multiplier-display'),
             multBar: document.getElementById('multiplier-bar'),
@@ -263,9 +310,67 @@
             quoteAuthor: document.getElementById('zen-author'),
             stressMeter: document.getElementById('stress-meter'),
             stressCheck: document.getElementById('stress-check'),
+            summary: document.getElementById('summary-screen'),
             hud: document.getElementById('hud'),
             footer: document.getElementById('footer-ui')
         };
+
+        window.onload = () => {
+            if (state.userName) {
+                elements.newView.classList.add('hidden');
+                elements.retView.classList.remove('hidden');
+                document.getElementById('display-name').textContent = state.userName;
+                document.getElementById('stat-lumens').textContent = state.totalLumens.toLocaleString();
+                document.getElementById('stat-stress').textContent = `${state.totalStress}%`;
+            }
+        };
+
+        function clearSession() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        function startExpedition() {
+            const name = state.userName || document.getElementById('name-input').value.trim() || "Traveler";
+            localStorage.setItem('eTanav_userName', name);
+            state.userName = name;
+            
+            document.getElementById('user-greeting').textContent = name;
+            elements.onboarding.classList.add('opacity-0', 'pointer-events-none');
+            
+            setTimeout(() => {
+                elements.onboarding.style.display = 'none';
+                elements.hud.style.opacity = '1';
+                elements.footer.style.opacity = '1';
+                state.isStarted = true;
+                state.playStartTime = Date.now();
+                updatePlanetUI();
+                initGame();
+                setInterval(() => { if (state.isStarted) fetchQuote(); }, 20000);
+            }, 800);
+        }
+
+        function showSummary() {
+            state.isStarted = false;
+            // Update persistence
+            state.totalLumens += state.lumen;
+            state.totalStress = Math.min(state.totalStress + Math.floor(state.stressReduced / 2), 100);
+            localStorage.setItem('eTanav_totalLumens', state.totalLumens);
+            localStorage.setItem('eTanav_totalStress', state.totalStress);
+
+            document.getElementById('summary-lumen').textContent = state.lumen.toLocaleString();
+            document.getElementById('summary-stress').textContent = `${Math.floor(state.stressReduced)}%`;
+            elements.summary.classList.remove('hidden');
+        }
+
+        function restartExpedition() {
+            elements.summary.classList.add('hidden');
+            state.lumen = 0;
+            state.stressReduced = 0;
+            elements.lumen.textContent = "0";
+            elements.stressMeter.textContent = "0%";
+            state.isStarted = true;
+        }
 
         function getAstrologicalTheme() {
             const hour = new Date().getHours();
@@ -281,15 +386,12 @@
                 elements.quoteContainer.style.opacity = '0';
                 const response = await fetch(`https://api.quotable.io/random?tags=${theme.tag}`);
                 const data = await response.json();
-                
                 setTimeout(() => {
                     elements.quoteText.textContent = `"${data.content}"`;
                     elements.quoteAuthor.textContent = `— ${data.author}`;
                     elements.quoteContainer.style.opacity = '1';
                 }, 1500);
             } catch (e) {
-                elements.quoteText.textContent = `"The stars lean down to kiss the earth."`;
-                elements.quoteAuthor.textContent = `— Cosmic Observer`;
                 elements.quoteContainer.style.opacity = '1';
             }
         }
@@ -297,10 +399,7 @@
         function updatePlanetUI() {
             const planet = PLANETS[(state.level - 1) % PLANETS.length];
             const theme = getAstrologicalTheme();
-            
             document.body.style.backgroundColor = theme.bg;
-            document.body.style.filter = theme.filter;
-
             elements.planetLabel.textContent = planet.name;
             elements.stage.textContent = `${planet.name} Expedition`;
             elements.planetVisual.style.setProperty('--planet-color', planet.color);
@@ -312,15 +411,13 @@
             elements.stressCheck.classList.add('hidden');
             if (relieved) {
                 state.stressReduced = Math.min(state.stressReduced + 15, 100);
-                setTimeout(() => showLegal('feedback'), 1000);
             }
         }
 
         function showLegal(type) {
-            const modal = document.getElementById('legal-modal');
             document.getElementById('legal-title').textContent = legalData[type].title;
             document.getElementById('legal-content').innerHTML = legalData[type].content;
-            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('legal-modal').classList.remove('opacity-0', 'pointer-events-none');
         }
 
         function hideLegal() {
@@ -329,25 +426,6 @@
 
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-
-        document.getElementById('start-btn').onclick = () => {
-            const name = document.getElementById('name-input').value.trim() || "Traveler";
-            localStorage.setItem('eTanav_userName', name);
-            document.getElementById('user-greeting').textContent = name;
-            document.getElementById('onboarding').style.opacity = '0';
-            
-            setTimeout(() => {
-                document.getElementById('onboarding').style.display = 'none';
-                elements.hud.style.opacity = '1';
-                elements.footer.style.opacity = '1';
-                state.isStarted = true;
-                state.playStartTime = Date.now();
-                updatePlanetUI();
-                initGame();
-                
-                setInterval(() => { if (state.isStarted) fetchQuote(); }, 20000);
-            }, 1000);
-        };
 
         function initGame() {
             resize();
@@ -381,14 +459,12 @@
             };
         }
 
-        function collectSeed(index, seed) {
+        function collectSeed(index) {
             const gain = Math.floor(20 * (1 + state.flowLevel * 2));
             state.lumen += gain;
             elements.lumen.textContent = state.lumen.toLocaleString();
             
-            if (state.flowLevel > 0.8) {
-                state.stressReduced = Math.min(state.stressReduced + 0.05, 100);
-            }
+            state.stressReduced = Math.min(state.stressReduced + 0.08, 100);
             elements.stressMeter.textContent = `${Math.floor(state.stressReduced)}%`;
 
             if (state.lumen >= state.level * 1000) {
@@ -401,7 +477,11 @@
         }
 
         function animate() {
-            if (!state.isStarted) return;
+            if (!state.isStarted) {
+                requestAnimationFrame(animate);
+                return;
+            }
+            
             const planet = PLANETS[(state.level - 1) % PLANETS.length];
             const theme = getAstrologicalTheme();
             
@@ -453,7 +533,7 @@
                 ctx.fill();
                 ctx.shadowBlur = 0;
                 
-                if (Math.hypot(s.x - state.char.x, s.y - state.char.y) < 40) collectSeed(i, s);
+                if (Math.hypot(s.x - state.char.x, s.y - state.char.y) < 40) collectSeed(i);
             });
 
             ctx.save();
